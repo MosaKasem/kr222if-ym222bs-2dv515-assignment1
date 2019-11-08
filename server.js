@@ -25,8 +25,6 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {console.log("Server is running on: " + PORT)})
 
 parseCVStoJSON = (filename) =>  {
-
-
     const results = [];
     fs.createReadStream(filename + '.csv')
       .pipe(csv({ separator: ';' }))
