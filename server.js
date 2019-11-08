@@ -15,7 +15,7 @@ app.use('/', require('./routes/users'))
 app.use('/', require('./routes/ratings'))
 app.use('/', require('./routes/items'))
 
-
+ 
 app.get('/', (req, res) => {
     res.send('home')
     parseCVStoJSON('ratings')
