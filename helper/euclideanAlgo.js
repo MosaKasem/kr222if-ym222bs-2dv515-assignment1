@@ -4,7 +4,7 @@ const fs = require('fs')
 const ratings = require('../ratings.json')
 const users = require('../users.json')
 
-function euclidean(userA, userB) {
+function euclidean(userID, userB) {
     // console.log('userB: ', userB);
     // console.log('userB: ', ...userB);
 
@@ -13,20 +13,24 @@ function euclidean(userA, userB) {
     let newArr = [];
     let euclideanObj = {}
     
-    const chosenUser = ratings.filter(e => e.UserID === userA) // only the chosen user
+    const userA = ratings.filter(e => e.UserID === userID) // get user A ratings
     // const filteredList = ratings.filter(e => e.UserID === userB) // everyone except root user
 
     // console.log('filteredList: ', filteredList);
     
-    for (let rootUser of chosenUser) {
+    for (let rootUser of userA) {
         for (let currentUser of userB) {
-            console.log('currentUser: ', currentUser);
+            if (rootUser.UserID === currentUser.UserID) {
+                "Its same"
+            }
             if (rootUser.Movie === currentUser.Movie) { // if its same movie
-                sim += getSimilarity(parseFloat(rootUser.Rating), parseFloat(currentUser.Rating))
+                // sim += getSimilarity(parseFloat(rootUser.Rating), parseFloat(currentUser.Rating))
+                sim += Math.pow(rootUser.Rating - currentUser.Rating, 2)
                 n += 1
             }
         }
     }
+    console.log(sim)
     // console.log(ratings)
     // console.log(newArr)
 }
@@ -40,7 +44,9 @@ this[a.UserID].push(a);
 
 for (let i = 0; i < grouped.length; i++) {
     // grouped[i];
-    euclidean("1", grouped[i])
+    if ("1" !== grouped[i][0].UserID) {
+        euclidean("1", grouped[i])
+    }
 }
 
 function doEuclidean(rootUser) {
