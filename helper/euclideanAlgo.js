@@ -26,17 +26,22 @@ const euclidean = (userID, userB) => {
     return 1 / (1 + simularityScore)
 }
 module.exports.getSimularity = userID => {
+    let resultMap = new Map()
+    let resultArray = []
     let grouped = [];
     ratings.forEach(function (a) {
         this[a.UserID] || grouped.push(this[a.UserID] = []);
         this[a.UserID].push(a);
     }, Object.create(null));
-
+    
     for (let i = 0; i < grouped.length; i++) {
         if (userID !== grouped[i][0].UserID) {
-            euclidean(userID, grouped[i])
+            let result = euclidean(userID, grouped[i])
+            resultMap.set(grouped[i][0].UserID, result)
+            resultArray.push({result: result, id:grouped[i][0].UserID})
         }
     }
+    return resultArray
 }
 
 function getSimilarity(a, b) {
