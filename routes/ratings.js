@@ -12,7 +12,7 @@ router.post('/ratings/:id', async (req, res) => {
                 rating: data.result
             }
         })
-        return res.send(resultFromEuc.sort((a, b) => a.rating - b.rating))
+        return res.send(resultFromEuc.sort((a, b) => b.rating - a.rating))
     } catch (error) {
         console.log(error);
     }
