@@ -14,8 +14,8 @@ const euclidean = (userID, userB) => {
     for (let rootUser of userA) {
         for (let currentUser of userB) {
             if (rootUser.Movie === currentUser.Movie) { // if its same movie
-                // simularityScore += getSimilarity(parseFloat(rootUser.Rating), parseFloat(currentUser.Rating))
-                simularityScore += (rootUser.Rating - currentUser.Rating) ** 2
+                simularityScore += getSimilarity(parseFloat(rootUser.Rating), parseFloat(currentUser.Rating))
+                // simularityScore += parseFloat((rootUser.Rating - currentUser.Rating) ** 2) // alternative
                 n += 1
             }
         }
@@ -26,19 +26,19 @@ const euclidean = (userID, userB) => {
     return 1 / (1 + simularityScore)
 }
 module.exports.getSimularity = userID => {
-    let resultMap = new Map()
     let resultArray = []
-    let grouped = [];
+    let sorted = [];
+
     ratings.forEach(function (a) {
-        this[a.UserID] || grouped.push(this[a.UserID] = []);
+        this[a.UserID] || sorted.push(this[a.UserID] = []);
+        
         this[a.UserID].push(a);
     }, Object.create(null));
     
-    for (let i = 0; i < grouped.length; i++) {
-        if (userID !== grouped[i][0].UserID) {
-            let result = euclidean(userID, grouped[i])
-            resultMap.set(grouped[i][0].UserID, result)
-            resultArray.push({result: result, id:grouped[i][0].UserID})
+    for (let i = 0; i < sorted.length; i++) {
+        if (userID !== sorted[i][0].UserID) {
+            let result = euclidean(userID, sorted[i])
+            resultArray.push({result: result, id:sorted[i][0].UserID})
         }
     }
     return resultArray
@@ -50,4 +50,8 @@ function getSimilarity(a, b) {
 
     // decrease and conqure - recursion
     return getSimilarity(b, a % b);
+}
+
+function euclideanWeight(userA, allUsers) {
+
 }
