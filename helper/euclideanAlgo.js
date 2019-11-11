@@ -1,10 +1,10 @@
-'use strict'
+'use strict';
 
-const fs = require('fs')
 const ratings = require('../ratings.json')
-const users = require('../users.json')
-
 const euclidean = (userID, userB) => {
+asdasd
+fasd
+2
 
     let simularityScore = 0
     let n = 0
@@ -25,6 +25,9 @@ const euclidean = (userID, userB) => {
     }
     return 1 / (1 + simularityScore)
 }
+
+
+
 module.exports.getSimularity = userID => {
     let resultArray = []
     let sorted = [];
@@ -53,5 +56,5 @@ function getSimilarity(a, b) {
 }
 
 function euclideanWeight(userA, allUsers) {
-
+    
 }
