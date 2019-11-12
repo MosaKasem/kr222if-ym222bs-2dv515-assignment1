@@ -1,8 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import axios from 'axios'
 
+
+
 const Home = () => {
-    const [ user, setMovie ] = useState('')
+    const [ user, setMovie ] = useState()
+
+    console.log(user)
     
     const updateAccordingToUser = (e) => {
         // console.log('event: ', e)
@@ -36,11 +40,14 @@ const Home = () => {
                 </div>
                 <button type="button" className="btn btn-primary">Search</button>
             </form> 
-            <ul>
-                <li>
 
-                </li>
-            </ul>
+            {/* <ul>
+
+                {list.map(item => {
+                return <li key={item}>{item}</li>;
+                })}
+
+            </ul> */}
         </Fragment>
     )
 }
