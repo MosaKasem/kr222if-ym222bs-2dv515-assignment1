@@ -1,6 +1,7 @@
 'use strict'
 
 const ratings = require('../ratings.json')
+const { UserID } = require('./types')
 
 /**
  * The method returns the similiarity score between user A and user B
@@ -28,15 +29,23 @@ const euclidean = (userID, userB) => {
   return 1 / (1 + simularityScore)
 }
 
-const getSimularity = userID => {
-  const resultArray = []
+/**
+ * keyValue is key name from the object: in this case, Movie or UserID
+ * @param {*} keyValue
+ */
+function sortByKey (keyValue) {
   const sorted = []
-
   ratings.forEach(function (a) {
     this[a.UserID] || sorted.push(this[a.UserID] = [])
 
     this[a.UserID].push(a)
   }, Object.create(null))
+  return sorted
+}
+
+const getSimularity = userID => {
+  const resultArray = []
+  const sorted = sortByKey(UserID) // type
 
   for (let i = 0; i < sorted.length; i++) {
     if (userID !== sorted[i][0].UserID) {
@@ -44,6 +53,7 @@ const getSimularity = userID => {
       resultArray.push({ result: result, id: sorted[i][0].UserID })
     }
   }
+  console.log('resultArray: ', resultArray);
   return resultArray
 }
 
@@ -56,10 +66,12 @@ function getSimilarity (a, b) {
 }
 
 const getWeightedScore = userID => {
-  const MovieSort = ratings.sort(function (a, b) {
+  const sortedMovies = ratings.sort(function (a, b) {
     return -(a.Movie - b.Movie || a.Movie.localeCompare(b.Movie))
   })
-  console.log('MovieSort: ', MovieSort);
+  for (let i = 0; i < sortedMovies.length; i++) {
+    console.log(sortedMovies[i])
+  }
 }
 
 function euclideanWeight (userID, allUsers) {
@@ -73,4 +85,4 @@ function euclideanWeight (userID, allUsers) {
   }
 }
 // euclideanWeight('1', ratings)
-getWeightedScore('1')
+// getWeightedScore('1')
