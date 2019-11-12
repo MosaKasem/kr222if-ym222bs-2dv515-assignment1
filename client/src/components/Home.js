@@ -1,56 +1,63 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState } from 'react'
 import axios from 'axios'
 
 
 
 const Home = () => {
-    const [ user, setMovie ] = useState()
+    const [ user, setUser ] = useState('')
+    const [ data, setData ] = useState(null)
 
     console.log('User: ',user)
     
     const updateAccordingToUser = (e) => {
-        // console.log('event: ', e)
-        // console.log('user:  ',user)
-        fetchMovies(e)
+            setUser(e.target.value)
     }
 
     const handleEnterKey = (e) => {
         if(e.key === 'Enter') {
-            fetchMovies()
+            fetchSimilarity(e)
         }
     }
 
-    const fetchMovies = async (e) => {
-        console.log(e.target.value)
+    const fetchSimilarity = async (e) => {
+        e.preventDefault()
         try {
-            const response = await axios.get(`/ratings/${e.target.value}`);
-            console.log('response: ', response);
-          } catch (error) {
-            console.error(error);
+            const response = await axios.get(`/ratings/${user}`);
+            setData(response.data)
+          } catch (err) {
+            console.error(err);
           }
     }
-
     return (
         <Fragment>
            <form>
-               <div className="input-group mb-3">
-                    <div className="input-group-prepend">
+               <div className='input-group mb-3'>
+                    <div className='input-group-prepend'>
                     </div>
-                    <input type="text" value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+                    <input type='text' value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className='form-control' placeholder='Username' aria-label='Username' aria-describedby='basic-addon1' />
+                    <button type='submit'  onClick={fetchSimilarity} className='btn btn-primary'>Search</button>
                 </div>
-                <button type="button" className="btn btn-primary">Search</button>
             </form> 
-
-            {/* <ul>
-
-                {list.map(item => {
-                return <li key={item}>{item}</li>;
-                })}
-
-            </ul> */}
+            { data ? <table className='table'>
+                        <thead className='thead-light'>
+                            <tr>
+                            <th scope='col'>Id</th>
+                            <th scope='col'>Similarity</th>
+                            </tr>
+                        </thead>
+                        {data.map(item => (
+                        <tbody>
+                            <tr>
+                        <th key={item.id} scope='row'>{item.id}</th>
+                            <td key={item.id+1}> {item.rating}</td>
+                            </tr>
+                            
+                        </tbody>
+                        ))}
+                    </table>
+                         : null }
         </Fragment>
     )
 }
 
 export default Home
-

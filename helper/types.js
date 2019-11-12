@@ -1,2 +1,2 @@
-export const UserID = 'UserID'
-export const Movies = 'Movies'
+module.exports.UserID = 'UserID'
+module.exports.Movies = 'Movies'

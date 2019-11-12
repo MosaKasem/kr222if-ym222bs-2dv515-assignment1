@@ -9,7 +9,7 @@ const style = {
 
 const App = () => {
   return (
-    <div className='container'>
+    <div className='container mt-5'>
       <BrowserRouter>
         <Switch>
           <Route path='/' component={Home} />

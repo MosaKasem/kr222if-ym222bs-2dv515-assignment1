@@ -43,7 +43,7 @@ function sortByKey (keyValue) {
   return sorted
 }
 
-const getSimularity = userID => {
+module.exports.getSimularity = userID => {
   const resultArray = []
   const sorted = sortByKey(UserID) // type
 
