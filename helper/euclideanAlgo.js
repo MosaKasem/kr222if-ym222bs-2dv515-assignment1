@@ -1,60 +1,76 @@
-'use strict';
+'use strict'
 
 const ratings = require('../ratings.json')
+
+/**
+ * The method returns the similiarity score between user A and user B
+ * @param {the id of user} userID
+ * @param {the user object} userB
+ */
 const euclidean = (userID, userB) => {
-asdasd
-fasd
-2
+  let simularityScore = 0
+  let n = 0
 
-    let simularityScore = 0
-    let n = 0
+  const userA = ratings.filter(e => e.UserID === userID) // get user A ratings
 
-    const userA = ratings.filter(e => e.UserID === userID) // get user A ratings
-
-    for (let rootUser of userA) {
-        for (let currentUser of userB) {
-            if (rootUser.Movie === currentUser.Movie) { // if its same movie
-                simularityScore += getSimilarity(parseFloat(rootUser.Rating), parseFloat(currentUser.Rating))
-                // simularityScore += parseFloat((rootUser.Rating - currentUser.Rating) ** 2) // alternative
-                n += 1
-            }
-        }
+  for (const rootUser of userA) {
+    for (const currentUser of userB) {
+      if (rootUser.Movie === currentUser.Movie) { // if its same movie
+        simularityScore += getSimilarity(parseFloat(rootUser.Rating), parseFloat(currentUser.Rating))
+        // simularityScore += parseFloat((rootUser.Rating - currentUser.Rating) ** 2) // alternative
+        n += 1
+      }
     }
-    if (n === 0) {
-        return 0
+  }
+  if (n === 0) {
+    return 0
+  }
+  return 1 / (1 + simularityScore)
+}
+
+const getSimularity = userID => {
+  const resultArray = []
+  const sorted = []
+
+  ratings.forEach(function (a) {
+    this[a.UserID] || sorted.push(this[a.UserID] = [])
+
+    this[a.UserID].push(a)
+  }, Object.create(null))
+
+  for (let i = 0; i < sorted.length; i++) {
+    if (userID !== sorted[i][0].UserID) {
+      const result = euclidean(userID, sorted[i])
+      resultArray.push({ result: result, id: sorted[i][0].UserID })
     }
-    return 1 / (1 + simularityScore)
+  }
+  return resultArray
 }
 
+function getSimilarity (a, b) {
+  if (a === 0) { return b }
+  if (b === 0) { return a }
 
+  // decrease and conqure - recursion
+  return getSimilarity(b, a % b)
+}
 
-module.exports.getSimularity = userID => {
-    let resultArray = []
-    let sorted = [];
+const getWeightedScore = userID => {
+  const MovieSort = ratings.sort(function (a, b) {
+    return -(a.Movie - b.Movie || a.Movie.localeCompare(b.Movie))
+  })
+  console.log('MovieSort: ', MovieSort);
+}
 
-    ratings.forEach(function (a) {
-        this[a.UserID] || sorted.push(this[a.UserID] = []);
-        
-        this[a.UserID].push(a);
-    }, Object.create(null));
-    
-    for (let i = 0; i < sorted.length; i++) {
-        if (userID !== sorted[i][0].UserID) {
-            let result = euclidean(userID, sorted[i])
-            resultArray.push({result: result, id:sorted[i][0].UserID})
-        }
+function euclideanWeight (userID, allUsers) {
+  const simResult = getSimularity(userID)
+  for (let i = 0; i < simResult.length; i++) {
+    for (let j = 0; j < ratings.length; j++) {
+      // if (simResult.id === ratings[j].UserID)
+      console.log('ratings[j].UserID: ', ratings[j].UserID)
+      const element = ratings[j]
     }
-    return resultArray
+  }
 }
-
-function getSimilarity(a, b) {
-    if (a === 0) { return b; }
-    if (b === 0) { return a; }
-
-    // decrease and conqure - recursion
-    return getSimilarity(b, a % b);
-}
-
-function euclideanWeight(userA, allUsers) {
-    
-}
+// euclideanWeight('1', ratings)
+getWeightedScore('1')

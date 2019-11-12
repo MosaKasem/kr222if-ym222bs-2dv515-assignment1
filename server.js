@@ -13,29 +13,27 @@ app.use('/', require('./routes/users'))
 app.use('/', require('./routes/ratings'))
 app.use('/', require('./routes/items'))
 
-
 app.get('/', (req, res) => {
-    res.send('home')
-    parseCVStoJSON('ratings')
-    parseCVStoJSON('users')
+  res.send('home')
+  parseCVStoJSON('ratings')
+  parseCVStoJSON('users')
 })
 
-app.listen(PORT, () => {console.log("Server is running on: " + PORT)})
+app.listen(PORT, () => { console.log('Server is running on: ' + PORT) })
 
-parseCVStoJSON = (filename) =>  {
+parseCVStoJSON = (filename) => {
+  const results = []
+  fs.createReadStream(filename + '.csv')
+    .pipe(csv({ separator: ';' }))
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      console.log(results)
+      const json = JSON.stringify(results)
 
-    const results = [];
-    fs.createReadStream(filename + '.csv')
-      .pipe(csv({ separator: ';' }))
-      .on('data', (data) => results.push(data))
-      .on('end', () => {
-        console.log(results)
-            const json = JSON.stringify(results);
-    
-            fs.writeFile(filename + '.json', json, 'utf8', (err) => {
-                 if(err) console.log(err); 
-               
-                    console.log("ok writing to file"); 
-            })
+      fs.writeFile(filename + '.json', json, 'utf8', (err) => {
+        if (err) console.log(err)
+
+        console.log('ok writing to file')
+      })
     })
 }
