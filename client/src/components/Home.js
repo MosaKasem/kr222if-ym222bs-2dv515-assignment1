@@ -6,7 +6,7 @@ import axios from 'axios'
 const Home = () => {
     const [ user, setMovie ] = useState()
 
-    console.log(user)
+    console.log('User: ',user)
     
     const updateAccordingToUser = (e) => {
         // console.log('event: ', e)
@@ -24,7 +24,7 @@ const Home = () => {
         console.log(e.target.value)
         try {
             const response = await axios.get(`/ratings/${e.target.value}`);
-            console.log(response);
+            console.log('response: ', response);
           } catch (error) {
             console.error(error);
           }
