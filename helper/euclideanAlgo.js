@@ -1,7 +1,7 @@
 'use strict'
 
 const ratings = require('../ratings.json')
-const { UserID } = require('./types')
+const { UserID, Movies } = require('./types')
 
 /**
  * The method returns the similiarity score between user A and user B
@@ -53,7 +53,6 @@ const getSimularity = userID => {
       resultArray.push({ result: result, id: sorted[i][0].UserID })
     }
   }
-  console.log('resultArray: ', resultArray);
   return resultArray
 }
 
@@ -66,6 +65,8 @@ function getSimilarity (a, b) {
 }
 
 const getWeightedScore = userID => {
+  const sortedList = sortByKey(Movies)
+  console.log('sortedList: ', sortedList);
   const sortedMovies = ratings.sort(function (a, b) {
     return -(a.Movie - b.Movie || a.Movie.localeCompare(b.Movie))
   })
