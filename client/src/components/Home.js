@@ -1,32 +1,56 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
+import axios from 'axios'
+
+
 
 const Home = () => {
-  return (
-    <>
-      <form>
-        <div>
-          <div className='dropdown'>
-            <button className='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                        Dropdown button
-            </button>
-            <div className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-              <a className='dropdown-item' href='#'>Action</a>
-              <a className='dropdown-item' href='#'>Another action</a>
-              <a className='dropdown-item' href='#'>Something else here</a>
-            </div>
-            <button className='btn btn-primary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-                        Dropdown button
-            </button>
-            <div className='dropdown-menu' aria-labelledby='dropdownMenuButton'>
-              <a className='dropdown-item' href='#'>Action</a>
-              <a className='dropdown-item' href='#'>Another action</a>
-              <a className='dropdown-item' href='#'>Something else here</a>
-            </div>
-          </div>
-        </div>
-      </form>
-    </>
-  )
+    const [ user, setMovie ] = useState()
+
+    console.log('User: ',user)
+    
+    const updateAccordingToUser = (e) => {
+        // console.log('event: ', e)
+        // console.log('user:  ',user)
+        fetchMovies(e)
+    }
+
+    const handleEnterKey = (e) => {
+        if(e.key === 'Enter') {
+            fetchMovies()
+        }
+    }
+
+    const fetchMovies = async (e) => {
+        console.log(e.target.value)
+        try {
+            const response = await axios.get(`/ratings/${e.target.value}`);
+            console.log('response: ', response);
+          } catch (error) {
+            console.error(error);
+          }
+    }
+
+    return (
+        <Fragment>
+           <form>
+               <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                    </div>
+                    <input type="text" value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+                </div>
+                <button type="button" className="btn btn-primary">Search</button>
+            </form> 
+
+            {/* <ul>
+
+                {list.map(item => {
+                return <li key={item}>{item}</li>;
+                })}
+
+            </ul> */}
+        </Fragment>
+    )
 }
 
 export default Home
+
