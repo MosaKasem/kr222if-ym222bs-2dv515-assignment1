@@ -1,7 +1,7 @@
 'use strict'
 
 const ratings = require('../ratings.json')
-const { UserID, Movie } = require('./types')
+const { USER_ID, MOVIE } = require('./types')
 
 /**
  * The method returns the similiarity score between user A and user B
@@ -34,28 +34,27 @@ const euclidean = (userID, userB) => {
  * @param {*} keyValue
  */
 function sortByKey (keyValue) {
-  console.log('keyValue: ', keyValue);
   const sorted = []
   ratings.forEach(function (a) {
-    console.log(a[keyValue])
     this[a[keyValue]] || sorted.push(this[a[keyValue]] = [])
 
     this[a[keyValue]].push(a)
   }, Object.create(null))
+  
   return sorted
 }
 
-module.exports.getSimularity = userID => {
-  const resultArray = []
-  const sorted = sortByKey(UserID) // type
+const getSimularity = userID => {
+  const simularity = []
+  const sorted = sortByKey(USER_ID) // type
 
   for (let i = 0; i < sorted.length; i++) {
     if (userID !== sorted[i][0].UserID) {
       const result = euclidean(userID, sorted[i])
-      resultArray.push({ result: result, id: sorted[i][0].UserID })
+      simularity.push({ result: result, id: sorted[i][0].UserID })
     }
   }
-  return resultArray
+  return simularity
 }
 
 function getSimilarity (a, b) {
@@ -65,26 +64,31 @@ function getSimilarity (a, b) {
   // decrease and conqure - recursion
   return getSimilarity(b, a % b)
 }
-
+/**
+ * 
+ * @param {the id of the user} userID 
+ */
 const getWeightedScore = userID => {
-  const sortedList = sortByKey(Movie)
-  console.log('Movie: ', Movie)
-  console.log('sortedList: ', sortedList);
-  const sortedMovies = ratings.sort(function (a, b) {
-    return -(a.Movie - b.Movie || a.Movie.localeCompare(b.Movie))
+  const sortedList = sortByKey(MOVIE)
+  const simResult = getSimularity(userID)
+  sortedList.map(movies => { // Map the array of movies
+    movies.forEach(movie => { // Iterate the ratings for the same movie for all users to get recommendation
+      for (let i = 0; i < simResult.length; i++) {
+        if (simResult[i].id === movie.UserID) {
+          
+        }
+      }
+    })
   })
-  for (let i = 0; i < sortedMovies.length; i++) {
-    // console.log(sortedMovies[i])
-  }
 }
 getWeightedScore('1')
 
-function euclideanWeight (userID, allUsers) {
+function getRecommendation (userID, allUsers) {
   const simResult = getSimularity(userID)
   for (let i = 0; i < simResult.length; i++) {
     for (let j = 0; j < ratings.length; j++) {
       // if (simResult.id === ratings[j].UserID)
-      console.log('ratings[j].UserID: ', ratings[j].UserID)
+      
       const element = ratings[j]
     }
   }
