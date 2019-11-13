@@ -69,30 +69,18 @@ const getSimularity = userID => {
 
 const getRecommendation = (simularityResult, movie) => {
   
-  let sum = 0
+  let weightedScore = 0
   let simularityScore = 0
 
   movie.map(e => {
-    console.log('e: ', e);
     simularityResult.map(simularity => {
       if (e.UserID === simularity.id) {
-        sum += simularity.result * parseFloat(e.Rating)
+        weightedScore += simularity.result * parseFloat(e.Rating)
         simularityScore += simularity.result
       }
     })
   })
-  console.log(simularityScore)
-  // for (let i = 0; i < movie.length; i++) {
-  //   for (let j = 0; j < simularityResult.length; j++) {
-      
-  //     if (movie[i].UserID === simularityResult[j].id) {
-        
-  //       sum += simularityResult[j].result * parseFloat(movie[i].Rating)
-  //       simularityScore += simularityResult[j].result
-        
-  //     }
-  //   }
-  // }
+  return weightedScore / simularityScore
 }
 
 /**
@@ -100,16 +88,31 @@ const getRecommendation = (simularityResult, movie) => {
  * @param {the id of the user} userID
  */
 const getWeightedScore = userID => {
-  const result = []
+  const sumSet = new Set()
+  
+  const rootUser = ratings.filter(e => e.UserID === userID)
+  
   const sortedList = sortByKey(MOVIE) // sort ratings by movie name
   const simResult = getSimularity(userID) // get similuarity score for user
 
-  const recommendation = getRecommendation(simResult, sortedList[0]) // similarity score and movieSet
-  // TODO: UN COMMENT WHEN FINISHED>
-  // sortedList.map((movieSet, i) => { // Map the array of movies
-    // const recommendation = getRecommendation(simResult, movieSet) // similarity score and movieSet
-  // })
-  // TODO: UN COMMENT WHEN FINISHED/>
+  const filteredSortedList = rootUser.filter((e, i) => {
+    return !sortedList.find(a => {
+      return e === a.Movie
+    })
+  })
+  console.log('filteredSortedList: ', filteredSortedList);
+  // console.log('filteredSortedList: ', filteredSortedList);
+  
+  sortedList.map((movieSet, i) => { // Map the array of movies
+    // loop root user
+    rootUser.map(e => {
+      if (e.Movie !== movieSet[i].Movie) {
+        
+      }
+    })
+    const recommendation = getRecommendation(simResult, movieSet) // similarity score and movieSet
+    sumSet.add(recommendation)
+  })
 }
 getWeightedScore('7')
 
