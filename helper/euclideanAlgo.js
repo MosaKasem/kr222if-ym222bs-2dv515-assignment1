@@ -40,7 +40,7 @@ function sortByKey (keyValue) {
 
     this[a[keyValue]].push(a)
   }, Object.create(null))
-  
+
   return sorted
 }
 
@@ -65,33 +65,34 @@ function getSimilarity (a, b) {
   return getSimilarity(b, a % b)
 }
 /**
- * 
+ * iterates the movies and calls next method to calculate recommendation score and returns the array.
  * @param {the id of the user} userID 
  */
 const getWeightedScore = userID => {
-  const sortedList = sortByKey(MOVIE)
-  const simResult = getSimularity(userID)
-  sortedList.map(movies => { // Map the array of movies
-    movies.forEach(movie => { // Iterate the ratings for the same movie for all users to get recommendation
-      for (let i = 0; i < simResult.length; i++) {
-        if (simResult[i].id === movie.UserID) {
-          
-        }
-      }
-    })
+  const result = []
+  const sortedList = sortByKey(MOVIE) // sort ratings by movie name
+  const simResult = getSimularity(userID) // get similuarity score for user
+
+  sortedList.map((movieSet, i) => { // Map the array of movies
+    // movies.forEach(movie => { // Iterate the ratings for the same movie for all users to get recommendation
+      console.log('movie: ', movieSet);
+      // const recommendation = getRecommendation(simResult, movie)
+      // result.push({ movie: recommendation })
+    // })
   })
 }
 getWeightedScore('1')
 
-function getRecommendation (userID, allUsers) {
-  const simResult = getSimularity(userID)
+function getRecommendation (simResult, movie) {
+  let sum = 0
+  let recommendationSum = 0
   for (let i = 0; i < simResult.length; i++) {
-    for (let j = 0; j < ratings.length; j++) {
-      // if (simResult.id === ratings[j].UserID)
-      
-      const element = ratings[j]
+    if (simResult[i].id === movie.UserID) {
+      console.log(movie)
+      // console.log('simResult[i].rating: ', simResult[i].result);
     }
   }
+
 }
 // euclideanWeight('1', ratings)
 // getWeightedScore('1')
