@@ -103,7 +103,7 @@ const getWeightedScore = userID => {
   const results = result.filter(({ MovieName: id1 }) => !rootUser.some(({ Movie: id2 }) => id2 === id1))
   return results
 }
-getWeightedScore('7')
 
-// euclideanWeight('1', ratings)
-// getWeightedScore('1')
+exports.getWeightedScore = getWeightedScore
+exports.getSimularity = getSimularity
+
