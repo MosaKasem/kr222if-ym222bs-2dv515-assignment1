@@ -1,7 +1,7 @@
 'use strict'
 
 const ratings = require('../ratings.json')
-const { UserID, Movies } = require('./types')
+const { USER_ID, MOVIE } = require('./types')
 
 /**
  * The method returns the similiarity score between user A and user B
@@ -17,8 +17,7 @@ const euclidean = (userID, userB) => {
   for (const rootUser of userA) {
     for (const currentUser of userB) {
       if (rootUser.Movie === currentUser.Movie) { // if its same movie
-        simularityScore += getSimilarity(parseFloat(rootUser.Rating), parseFloat(currentUser.Rating))
-        // simularityScore += parseFloat((rootUser.Rating - currentUser.Rating) ** 2) // alternative
+        simularityScore += (parseFloat(rootUser.Rating) - parseFloat(currentUser.Rating)) ** 2
         n += 1
       }
     }
@@ -32,58 +31,78 @@ const euclidean = (userID, userB) => {
 /**
  * keyValue is key name from the object: in this case, Movie or UserID
  * @param {*} keyValue
+ * @returns a sorted array of arrays based on the parameter (Movie )
  */
-function sortByKey (keyValue) {
+const sortByKey = keyValue => {
   const sorted = []
   ratings.forEach(function (a) {
-    this[a.UserID] || sorted.push(this[a.UserID] = [])
+    this[a[keyValue]] || sorted.push(this[a[keyValue]] = [])
 
-    this[a.UserID].push(a)
+    this[a[keyValue]].push(a)
   }, Object.create(null))
+
   return sorted
 }
 
+<<<<<<< HEAD
 module.exports.getSimularity = userID => {
   const resultArray = []
   const sorted = sortByKey(UserID) // type
+=======
+/**
+ * TODO
+ * @param {*} userID
+ */
+const getSimularity = userID => {
+  const simularity = []
+  const sorted = sortByKey(USER_ID) // type
+>>>>>>> b940b8496aa700003d8c9691616497a69b983c11
 
   for (let i = 0; i < sorted.length; i++) {
-    if (userID !== sorted[i][0].UserID) {
+    if (userID !== sorted[i][0].UserID) { // check so we dont iterate root user
       const result = euclidean(userID, sorted[i])
-      resultArray.push({ result: result, id: sorted[i][0].UserID })
+      simularity.push({ result: result, id: sorted[i][0].UserID })
     }
   }
-  return resultArray
+
+  return simularity
 }
 
-function getSimilarity (a, b) {
-  if (a === 0) { return b }
-  if (b === 0) { return a }
+const getRecommendation = (simularityResult, movie) => {
+  let weightedScore = 0
+  let simularityScore = 0
 
-  // decrease and conqure - recursion
-  return getSimilarity(b, a % b)
-}
-
-const getWeightedScore = userID => {
-  const sortedList = sortByKey(Movies)
-  console.log('sortedList: ', sortedList);
-  const sortedMovies = ratings.sort(function (a, b) {
-    return -(a.Movie - b.Movie || a.Movie.localeCompare(b.Movie))
+  movie.map(e => {
+    simularityResult.map(simularity => {
+      if (e.UserID === simularity.id) {
+        weightedScore += simularity.result * parseFloat(e.Rating)
+        simularityScore += simularity.result
+      }
+    })
   })
-  for (let i = 0; i < sortedMovies.length; i++) {
-    console.log(sortedMovies[i])
-  }
+  return weightedScore / simularityScore
 }
 
-function euclideanWeight (userID, allUsers) {
-  const simResult = getSimularity(userID)
-  for (let i = 0; i < simResult.length; i++) {
-    for (let j = 0; j < ratings.length; j++) {
-      // if (simResult.id === ratings[j].UserID)
-      console.log('ratings[j].UserID: ', ratings[j].UserID)
-      const element = ratings[j]
-    }
-  }
+/**
+ * iterates the movies and calls next method to calculate recommendation score and returns the array.
+ * @param {the id of the user} userID
+ */
+const getWeightedScore = userID => {
+  const result = []
+  const rootUser = ratings.filter(e => e.UserID === userID) // fetch user
+  
+  const sortedList = sortByKey(MOVIE) // sort ratings by movie name
+  const simResult = getSimularity(userID) // get similuarity score for user
+  
+  sortedList.map((movieSet, i) => { // Map the array of movies
+    const score = getRecommendation(simResult, movieSet) // similarity score and movieSet
+    const movieName = movieSet[i].Movie
+    result.push({ MovieName: movieName, weightedScore: score })
+  })
+
+  const results = result.filter(({ MovieName: listMovieName }) => !rootUser.some(({ Movie: rootMovieName }) => rootMovieName === listMovieName))
+  return results
 }
-// euclideanWeight('1', ratings)
-// getWeightedScore('1')
+
+exports.getWeightedScore = getWeightedScore
+exports.getSimularity = getSimularity
