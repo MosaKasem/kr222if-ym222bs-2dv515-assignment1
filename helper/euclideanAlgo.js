@@ -41,8 +41,19 @@ const sortByKey = keyValue => {
 
     this[a[keyValue]].push(a)
   }, Object.create(null))
-
   return sorted
+}
+
+const addNames = (list) => {
+  const listWithNames = list.slice()
+  listWithNames.map(ratingSet => {
+    usersNames.map(user => {
+      if (ratingSet.id === user.UserID) {
+        ratingSet.name = user.UserName
+      }
+    })
+  })
+  return listWithNames
 }
 
 /**
@@ -59,8 +70,7 @@ const getSimularity = userID => {
       simularity.push({ result: result, id: sorted[i][0].UserID })
     }
   }
-
-  return simularity
+  return addNames(simularity)
 }
 
 const getRecommendation = (simularityResult, movie) => {
@@ -88,6 +98,7 @@ const getWeightedScore = userID => {
   
   const sortedList = sortByKey(MOVIE) // sort ratings by movie name
   const simResult = getSimularity(userID) // get similuarity score for user
+  console.log('simResult: ', simResult);
   
   sortedList.map((movieSet, i) => { // Map the array of movies
     const score = getRecommendation(simResult, movieSet) // similarity score and movieSet
@@ -98,6 +109,7 @@ const getWeightedScore = userID => {
   const results = result.filter(({ MovieName: listMovieName }) => !rootUser.some(({ Movie: rootMovieName }) => rootMovieName === listMovieName))
   return results
 }
+getSimularity("4")
 
 exports.getWeightedScore = getWeightedScore
 exports.getSimularity = getSimularity

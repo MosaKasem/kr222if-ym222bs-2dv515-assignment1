@@ -9,6 +9,7 @@ router.get('/ratings/:id', async (req, res) => {
 
     const resultFromEuc = result.map((data) => {
       return {
+        name: data.name,
         id: data.id,
         rating: data.result
       }
@@ -19,7 +20,7 @@ router.get('/ratings/:id', async (req, res) => {
   }
 })
 
-router.get('/recommendation/:id', async (req, res) => {
+router.get('/weighted/:id', async (req, res) => {
   try {
     const userID = req.params.id
     const result = algorithm.getWeightedScore(userID)
