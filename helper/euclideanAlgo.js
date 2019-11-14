@@ -17,7 +17,7 @@ const euclidean = (userID, userB) => {
   for (const rootUser of userA) {
     for (const currentUser of userB) {
       if (rootUser.Movie === currentUser.Movie) { // if its same movie
-        simularityScore += (rootUser.Rating - currentUser.Rating) ** 2
+        simularityScore += (parseFloat(rootUser.Rating) - parseFloat(currentUser.Rating)) ** 2
         n += 1
       }
     }
