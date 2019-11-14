@@ -44,11 +44,6 @@ const sortByKey = keyValue => {
   return sorted
 }
 
-<<<<<<< HEAD
-module.exports.getSimularity = userID => {
-  const resultArray = []
-  const sorted = sortByKey(UserID) // type
-=======
 /**
  * TODO
  * @param {*} userID
@@ -56,7 +51,6 @@ module.exports.getSimularity = userID => {
 const getSimularity = userID => {
   const simularity = []
   const sorted = sortByKey(USER_ID) // type
->>>>>>> b940b8496aa700003d8c9691616497a69b983c11
 
   for (let i = 0; i < sorted.length; i++) {
     if (userID !== sorted[i][0].UserID) { // check so we dont iterate root user
