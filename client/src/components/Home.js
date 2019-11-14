@@ -28,6 +28,7 @@ const Home = () => {
             console.error(err);
           }
     }
+    
     return (
         <Fragment>
            <form>
