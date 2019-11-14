@@ -1,6 +1,7 @@
 'use strict'
 
 const ratings = require('../ratings.json')
+const usersNames = require('../users.json')
 const { USER_ID, MOVIE } = require('./types')
 
 /**
