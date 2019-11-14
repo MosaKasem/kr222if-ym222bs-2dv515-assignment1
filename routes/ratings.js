@@ -24,15 +24,15 @@ router.get('/weighted/:id', async (req, res) => {
   try {
     const userID = req.params.id
     const result = algorithm.getWeightedScore(userID)
-
     const resultFromEuc = result.map((data) => {
       return {
-        result
+        movie: data.MovieName,
+        weightedScore: data.weightedScore
       }
     })
-    return res.send(resultFromEuc.sort((a, b) => b.rating - a.rating))
+    res.json(resultFromEuc.sort((a, b) => b.weightedScore - a.weightedScore))
   } catch (error) {
-    
+    console.error(error)
   }
 })
 
