@@ -3,10 +3,9 @@ import Message from './Message'
 import axios from 'axios'
 
 export const Similarity = (e) => {
-    let count = 0
     const [ user, setUser ] = useState('')
     const [ data, setData ] = useState(null)
-    const [ message, setMessage] = useState(null)
+    const [ message, setMessage] = useState('')
 
     console.log('User: ', user)
     
@@ -33,10 +32,11 @@ export const Similarity = (e) => {
           }
     }
     
+    // Skicka metod setMessage
     return (
         <Fragment>
            <form>
-           {message && <Message msg={message} /> }
+           {message && <Message msg={message} setMessage={setMessage} /> }
                <div className='input-group mb-3'>
                     <div className='input-group-prepend'>
                     </div>
@@ -44,7 +44,7 @@ export const Similarity = (e) => {
                     <button type='submit' onClick={fetchSimilarity} className='btn btn-warning ml-2'>Search</button>
                 </div>
             </form> 
-            { data ? <table className='table'>
+            { data && <table className='table'>
                         <thead className='thead-light'>
                             <tr>
                             <th scope='col'>Id</th>
@@ -52,18 +52,17 @@ export const Similarity = (e) => {
                             <th scope='col'>Similarity</th>
                             </tr>
                         </thead>
-                        { data.map(item => (
-                        <tbody key={++count}>
+                        { data.map((item, i) => (
+                        <tbody key={`${item.name} ${i}`}>
                             <tr>
-                            <th key={++count}>{item.id}</th>
-                            <th key={++count}>{item.name}</th>
-                            <td key={++count}> {item.rating}</td>
+                            <th>{item.id}</th>
+                            <th>{item.name}</th>
+                            <td> {item.rating}</td>
                             </tr>
-                            
                         </tbody>
                         ))}
                     </table>
-                        : null }
+                    }
         </Fragment>
     )
 }
