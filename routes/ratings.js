@@ -1,11 +1,12 @@
 const router = require('express').Router()
-const algorithm = require('../helper/euclideanAlgo')
+const {getWeightedScore, getSimularity } = require('../helper/euclideanAlgo')
+const validation = require('../helper/validation')
 
 // Homepages for ratings
-router.get('/ratings/:id', async (req, res) => {
+router.get('/ratings/:id', validation, async (req, res) => {
   try {
     const userID = req.params.id
-    const result = algorithm.getSimularity(userID)
+    const result = getSimularity(userID)
 
     const resultFromEuc = result.map((data) => {
       return {
@@ -16,14 +17,14 @@ router.get('/ratings/:id', async (req, res) => {
     })
     return res.send(resultFromEuc.sort((a, b) => b.rating - a.rating))
   } catch (error) {
-    
+
   }
 })
 
 router.get('/weighted/:id', async (req, res) => {
   try {
     const userID = req.params.id
-    const result = algorithm.getWeightedScore(userID)
+    const result = getWeightedScore(userID)
     const resultFromEuc = result.map((data) => {
       return {
         movie: data.MovieName,

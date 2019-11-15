@@ -43,7 +43,10 @@ const sortByKey = keyValue => {
   }, Object.create(null))
   return sorted
 }
-
+/**
+ * This method adds names based on the id. (if list.id === nameList.id) add name
+ * @param {simularity list} list
+ */
 const addNames = (list) => {
   const listWithNames = list.slice()
   listWithNames.map(ratingSet => {
@@ -98,7 +101,6 @@ const getWeightedScore = userID => {
   
   const sortedList = sortByKey(MOVIE) // sort ratings by movie name
   const simResult = getSimularity(userID) // get similuarity score for user
-  console.log('simResult: ', simResult);
   
   sortedList.map((movieSet, i) => { // Map the array of movies
     const score = getRecommendation(simResult, movieSet) // similarity score and movieSet
@@ -109,7 +111,6 @@ const getWeightedScore = userID => {
   const results = result.filter(({ MovieName: listMovieName }) => !rootUser.some(({ Movie: rootMovieName }) => rootMovieName === listMovieName))
   return results
 }
-getSimularity("4")
 
 exports.getWeightedScore = getWeightedScore
 exports.getSimularity = getSimularity
