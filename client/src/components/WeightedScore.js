@@ -28,7 +28,9 @@ export const Weighted = (e) => {
             console.log(response)
             setData(response.data)
           } catch (err) {
-            setMessage('Something went wrong')
+            setUser('')
+            setData(null)
+            setMessage('Something went wrong, try a number in the input field')
           }
     }
     

@@ -6,7 +6,7 @@ export const Similarity = (e) => {
     let count = 0
     const [ user, setUser ] = useState('')
     const [ data, setData ] = useState(null)
-    const [ message, setMessage] = useState('')
+    const [ message, setMessage] = useState(null)
 
     console.log('User: ', user)
     
@@ -24,18 +24,19 @@ export const Similarity = (e) => {
         e.preventDefault()
         try {
             const response = await axios.get(`/similarity/${user}`);
-
             setData(response.data)
 
           } catch (err) {
-            setMessage('Something went wrong')
+              setUser('')
+              setData(null)
+              setMessage('Something went wrong, try a number in the input field')
           }
     }
     
     return (
         <Fragment>
            <form>
-           {message ? <Message msg={message} /> : null }
+           {message && <Message msg={message} /> }
                <div className='input-group mb-3'>
                     <div className='input-group-prepend'>
                     </div>
