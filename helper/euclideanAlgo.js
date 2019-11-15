@@ -98,10 +98,10 @@ const getRecommendation = (simularityResult, movie) => {
 const getWeightedScore = userID => {
   const result = []
   const rootUser = ratings.filter(e => e.UserID === userID) // fetch user
-  
+
   const sortedList = sortByKey(MOVIE) // sort ratings by movie name
   const simResult = getSimularity(userID) // get similuarity score for user
-  
+
   sortedList.map((movieSet, i) => { // Map the array of movies
     const score = getRecommendation(simResult, movieSet) // similarity score and movieSet
     const movieName = movieSet[i].Movie
