@@ -5,6 +5,7 @@ const users = require('../users.json')
 
 const pearson = (userID, userB) => {
   // Initialize variables
+  // m
   let sumOne = 0
   let sumTwo = 0
   let sum1sq = 0
