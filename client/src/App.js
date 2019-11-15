@@ -5,22 +5,18 @@ import Similarity from './components/Similarity.js'
 import Weighted from './components/WeightedScore.js'
 import './App.css'
 
-const style = {
-
-}
-
 const App = () => {
   return (
     <BrowserRouter>
       <div className='container mt-5'>
         <h1 className="display-4">Movie recommendations</h1>
-        <p class="lead">This website is dedicated to all moviewatchers all over the world</p>
+        <p className="lead">This website is dedicated to all moviewatchers all over the world</p>
         <Home />
         <Switch>
           <Route path='/similarity' exact component={Similarity} />
           <Route path='/weighted' exact component={Weighted} />
         </Switch>
-      </div>
+        </div>
       </BrowserRouter>
   )
 }

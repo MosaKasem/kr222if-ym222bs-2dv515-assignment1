@@ -3,6 +3,7 @@ import Message from './Message'
 import axios from 'axios'
 
 export const Weighted = (e) => {
+    let count = 0
     const [ user, setUser ] = useState('')
     const [ data, setData ] = useState(null)
     const [ message, setMessage] = useState('')
@@ -16,18 +17,16 @@ export const Weighted = (e) => {
 
     const handleEnterKey = (e) => {
         if(e.key === 'Enter') {
-            fetch(e)
+            fetchWightedScore(e)
         }
     }
 
-    const fetch = async (e) => {
+    const fetchWightedScore = async (e) => {
         e.preventDefault()
         try {
             const response = await axios.get(`/weighted/${user}`);
             console.log(response)
-            // setCurrentState({message: 'No data found'})
             setData(response.data)
-            // setMessage({message: ''})
           } catch (err) {
             console.error(err);
           }
@@ -41,7 +40,7 @@ export const Weighted = (e) => {
                     <div className='input-group-prepend'>
                     </div>
                     <input type='text' value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className='form-control' placeholder='User ID' aria-label='User ID' aria-describedby='basic-addon1' />
-                    <button type='submit'  onClick={fetch} className='btn btn-primary'>Search</button>
+                    <button type='submit'  onClick={fetchWightedScore} className='btn btn-primary'>Search</button>
                 </div>
             </form>
 
@@ -55,13 +54,13 @@ export const Weighted = (e) => {
                         {data.map(item => (
                         <tbody>
                             <tr>
-                                <th key={item.weightedScore}>{item.weightedScore}</th>
-                                <td key={item.weightedScore + 1}> {item.movie}</td>
+                                <th key={count++}>{item.movie}</th>
+                                <td key={count++}>{item.score}</td>
                             </tr>
                         </tbody>
                         ))}
                     </table>
-                         : null }
+                        : null }
         </Fragment>
     )
 }

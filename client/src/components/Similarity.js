@@ -1,7 +1,9 @@
 import React, { Fragment, useState } from 'react'
+import Message from './Message'
 import axios from 'axios'
 
 export const Similarity = (e) => {
+    let count = 0
     const [ user, setUser ] = useState('')
     const [ data, setData ] = useState(null)
     const [ message, setMessage] = useState('')
@@ -22,7 +24,12 @@ export const Similarity = (e) => {
         e.preventDefault()
         try {
             const response = await axios.get(`/ratings/${user}`);
-            setData(response.data)
+            if(response.data.data === 0) {
+                setMessage('Oooops, something went wrong')
+            } else {
+
+                setData(response.data)
+            }
           } catch (err) {
             console.error(err);
           }
@@ -31,11 +38,12 @@ export const Similarity = (e) => {
     return (
         <Fragment>
            <form>
+           {message ? <Message msg={message} /> : null }
                <div className='input-group mb-3'>
                     <div className='input-group-prepend'>
                     </div>
                     <input type='text' value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className='form-control' placeholder='User ID' aria-label='User ID' aria-describedby='basic-addon1' />
-                    <button type='submit'  onClick={fetchSimilarity} className='btn btn-primary'>Search</button>
+                    <button type='submit' onClick={fetchSimilarity} className='btn btn-primary'>Search</button>
                 </div>
             </form> 
             { data ? <table className='table'>
@@ -45,11 +53,11 @@ export const Similarity = (e) => {
                             <th scope='col'>Similarity</th>
                             </tr>
                         </thead>
-                        {data.map(item => (
+                        { data.map(item => (
                         <tbody>
                             <tr>
-                        <th key={item.id} scope='row'>{item.id}</th>
-                            <td key={item.id+1}> {item.rating}</td>
+                        <th key={count++} scope='row'>{item.id}</th>
+                            <td key={count++}> {item.rating}</td>
                             </tr>
                             
                         </tbody>
