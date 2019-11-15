@@ -9,13 +9,15 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className='container mt-5'>
-        <h1 className="display-4">Movie recommendations</h1>
-        <p className="lead">This website is dedicated to all moviewatchers all over the world</p>
-        <Home />
-        <Switch>
-          <Route path='/similarity' exact component={Similarity} />
-          <Route path='/weighted' exact component={Weighted} />
-        </Switch>
+          <div className='help'>
+            <h1 className="display-4">Movie recommendations</h1>
+            <p className="lead">This website is dedicated to all moviewatchers all over the world</p>
+            <Home />
+            <Switch>
+            <Route path='/similarity' exact component={Similarity} />
+            <Route path='/weighted' exact component={Weighted} />
+            </Switch>
+            </div>
         </div>
       </BrowserRouter>
   )

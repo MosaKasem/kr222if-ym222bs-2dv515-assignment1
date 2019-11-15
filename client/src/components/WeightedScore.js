@@ -28,7 +28,7 @@ export const Weighted = (e) => {
             console.log(response)
             setData(response.data)
           } catch (err) {
-            console.error(err);
+            setMessage('Something went wrong')
           }
     }
     
@@ -40,7 +40,7 @@ export const Weighted = (e) => {
                     <div className='input-group-prepend'>
                     </div>
                     <input type='text' value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className='form-control' placeholder='User ID' aria-label='User ID' aria-describedby='basic-addon1' />
-                    <button type='submit'  onClick={fetchWightedScore} className='btn btn-primary'>Search</button>
+                    <button type='submit'  onClick={fetchWightedScore} className='btn btn-warning ml-2'>Search</button>
                 </div>
             </form>
 
@@ -52,10 +52,10 @@ export const Weighted = (e) => {
                             </tr>
                         </thead>
                         {data.map(item => (
-                        <tbody>
+                        <tbody key={++count}>
                             <tr>
-                                <th key={count++}>{item.movie}</th>
-                                <td key={count++}>{item.score}</td>
+                                <th key={++count}>{item.movie}</th>
+                                <td key={++count}>{item.weightedScore}</td>
                             </tr>
                         </tbody>
                         ))}

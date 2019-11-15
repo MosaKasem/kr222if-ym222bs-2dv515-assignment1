@@ -23,15 +23,12 @@ export const Similarity = (e) => {
     const fetchSimilarity = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.get(`/ratings/${user}`);
-            if(response.data.data === 0) {
-                setMessage('Oooops, something went wrong')
-            } else {
+            const response = await axios.get(`/similarity/${user}`);
 
-                setData(response.data)
-            }
+            setData(response.data)
+
           } catch (err) {
-            console.error(err);
+            setMessage('Something went wrong')
           }
     }
     
@@ -43,21 +40,23 @@ export const Similarity = (e) => {
                     <div className='input-group-prepend'>
                     </div>
                     <input type='text' value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className='form-control' placeholder='User ID' aria-label='User ID' aria-describedby='basic-addon1' />
-                    <button type='submit' onClick={fetchSimilarity} className='btn btn-primary'>Search</button>
+                    <button type='submit' onClick={fetchSimilarity} className='btn btn-warning ml-2'>Search</button>
                 </div>
             </form> 
             { data ? <table className='table'>
                         <thead className='thead-light'>
                             <tr>
                             <th scope='col'>Id</th>
+                            <th scope='col'>Name</th>
                             <th scope='col'>Similarity</th>
                             </tr>
                         </thead>
                         { data.map(item => (
-                        <tbody>
+                        <tbody key={++count}>
                             <tr>
-                        <th key={count++} scope='row'>{item.id}</th>
-                            <td key={count++}> {item.rating}</td>
+                            <th key={++count}>{item.id}</th>
+                            <th key={++count}>{item.name}</th>
+                            <td key={++count}> {item.rating}</td>
                             </tr>
                             
                         </tbody>

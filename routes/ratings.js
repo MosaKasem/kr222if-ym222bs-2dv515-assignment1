@@ -3,7 +3,7 @@ const {getWeightedScore, getSimularity } = require('../helper/euclideanAlgo')
 const validation = require('../helper/validation')
 
 // Homepages for ratings
-router.get('/ratings/:id', validation, async (req, res) => {
+router.get('/similarity/:id', validation, async (req, res) => {
   try {
     const userID = req.params.id
     const result = getSimularity(userID)
@@ -15,10 +15,10 @@ router.get('/ratings/:id', validation, async (req, res) => {
         rating: data.result
       }
     })
-    return res.send(resultFromEuc.sort((a, b) => b.rating - a.rating))
+    res.status(200).json(resultFromEuc.sort((a, b) => b.rating - a.rating))
   } catch (error) {
-    res.json({
-      status: 500,
+    res.status(500).json({
+      error: error.msg,
       msg: 'Something went wrong'
     })
   }
@@ -34,10 +34,10 @@ router.get('/weighted/:id', validation, async (req, res) => {
         weightedScore: data.weightedScore
       }
     })
-    res.json(resultFromEuc.sort((a, b) => b.weightedScore - a.weightedScore))
+    res.status(200).json(resultFromEuc.sort((a, b) => b.weightedScore - a.weightedScore))
   } catch (error) {
-    res.json({
-      status: 500,
+    res.status(500).json({
+      error: error.msg,
       msg: 'Something went wrong'
     })
   }
