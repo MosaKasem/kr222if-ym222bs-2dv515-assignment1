@@ -19,7 +19,7 @@ router.get('/ratings/:id', validation, async (req, res) => {
   } catch (error) {
     res.json({
       status: 500,
-      msg: "Something went wrong"
+      msg: 'Something went wrong'
     })
   }
 })
@@ -38,7 +38,7 @@ router.get('/weighted/:id', validation, async (req, res) => {
   } catch (error) {
     res.json({
       status: 500,
-      msg: "Something went wrong"
+      msg: 'Something went wrong'
     })
   }
 })
