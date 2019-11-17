@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const {getWeightedScore, getSimularity } = require('../helper/euclideanAlgo')
+const { getWeightedScore, getSimularity } = require('../helper/euclideanAlgo')
 const validation = require('../helper/validation')
 
 // Homepages for ratings
-router.get('/ratings/:id', validation, async (req, res) => {
+router.get('/similarity/:id', validation, async (req, res) => {
   try {
     const userID = req.params.id
     const result = getSimularity(userID)
@@ -17,8 +17,8 @@ router.get('/ratings/:id', validation, async (req, res) => {
     })
     return res.send(resultFromEuc.sort((a, b) => b.rating - a.rating))
   } catch (error) {
-    res.json({
-      status: 500,
+    res.status(500).json({
+      error: error.msg,
       msg: 'Something went wrong'
     })
   }
@@ -27,7 +27,7 @@ router.get('/ratings/:id', validation, async (req, res) => {
 router.get('/weighted/:id', validation, async (req, res) => {
   try {
     const userID = req.params.id
-    const result = getWeightedScore(userID)
+    const result = getWeightedScore(userID, 'euclidean')
     const resultFromEuc = result.map((data) => {
       return {
         movie: data.MovieName,
@@ -36,8 +36,8 @@ router.get('/weighted/:id', validation, async (req, res) => {
     })
     res.json(resultFromEuc.sort((a, b) => b.weightedScore - a.weightedScore))
   } catch (error) {
-    res.json({
-      status: 500,
+    res.status(500).json({
+      error: error.msg,
       msg: 'Something went wrong'
     })
   }

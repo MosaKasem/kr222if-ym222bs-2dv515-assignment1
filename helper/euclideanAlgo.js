@@ -3,6 +3,7 @@
 const ratings = require('../ratings.json')
 const usersNames = require('../users.json')
 const { USER_ID, MOVIE } = require('./types')
+const { getPearsonSimularity } = require('./pearsonAlgo')
 
 /**
  * The method returns the similiarity score between user A and user B
@@ -95,12 +96,12 @@ const getRecommendation = (simularityResult, movie) => {
  * iterates the movies and calls next method to calculate recommendation score and returns the array.
  * @param {the id of the user} userID
  */
-const getWeightedScore = userID => {
+const getWeightedScore = (userID, metric) => {
   const result = []
   const rootUser = ratings.filter(e => e.UserID === userID) // fetch user
-
+  let simResult = []
   const sortedList = sortByKey(MOVIE) // sort ratings by movie name
-  const simResult = getSimularity(userID) // get similuarity score for user
+  simResult = getSimularity(userID) // get similuarity score for user
 
   sortedList.map((movieSet, i) => { // Map the array of movies
     const score = getRecommendation(simResult, movieSet) // similarity score and movieSet
@@ -115,3 +116,4 @@ const getWeightedScore = userID => {
 exports.getWeightedScore = getWeightedScore
 exports.getSimularity = getSimularity
 exports.sortByKey = sortByKey
+exports.addNames = addNames

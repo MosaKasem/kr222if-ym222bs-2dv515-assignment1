@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     }
     next()
   } catch (error) {
-    res.json({
+    res.status(404).json({
       status: 404,
       msg: 'User could not be found'
     })

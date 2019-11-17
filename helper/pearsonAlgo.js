@@ -1,9 +1,7 @@
-const fs = require('fs')
 
-const { USER_ID, MOVIE } = require('./types')
 const ratings = require('../ratings.json')
-const users = require('../users.json')
-const { sortByKey } = require('./euclideanAlgo')
+const { sortByKey, addNames } = require('./euclideanAlgo')
+const { USER_ID, MOVIE } = require('./types')
 
 const pearson = (userA, userB) => {
   // Initialize variables
@@ -19,10 +17,10 @@ const pearson = (userA, userB) => {
       if (rootUser.Movie === currentUser.Movie) { // if its same movie
         sumOne += Number(rootUser.Rating) // sum ratings for user A
         sumTwo += Number(currentUser.Rating) // sum ratings for user B
-        
+
         sum1sq += Number(rootUser.Rating) ** 2 // sum of squared rating for user A
         sum2sq += Number(currentUser.Rating) ** 2 // sum of squared rating for user B
-        
+
         pSum += Number(rootUser.Rating) * Number(currentUser.Rating) // product of ratings from A and B
         n += 1 // number of ratings in commong between A and B
       }
@@ -50,6 +48,47 @@ const getPearsonSimularity = (userID) => {
       simularity.push({ result: result, id: sorted[i][0].UserID })
     }
   }
-  return simularity.filter(e => e.result > 0).sort((a, b) => b.result - a.result)
+  // filter away the users with no similarity
+  const sortedList = simularity.filter(e => e.result > 0).sort((a, b) => b.result - a.result)
+  return addNames(sortedList)
 }
-getPearsonSimularity('7')
+
+/**
+ * iterates the movies and calls next method to calculate recommendation score and returns the array.
+ * @param {the id of the user} userID
+ */
+const getWeightedScore = (userID) => {
+  const result = []
+  const rootUser = ratings.filter(e => e.UserID === userID) // fetch user
+  let simResult = []
+  const sortedList = sortByKey(MOVIE) // sort ratings by movie name
+
+  simResult = getPearsonSimularity(userID)
+
+  sortedList.map((movieSet, i) => { // Map the array of movies
+    const score = getRecommendation(simResult, movieSet) // similarity score and movieSet
+    const movieName = movieSet[i].Movie
+    result.push({ MovieName: movieName, weightedScore: score })
+  })
+
+  const results = result.filter(({ MovieName: listMovieName }) => !rootUser.some(({ Movie: rootMovieName }) => rootMovieName === listMovieName))
+  return results
+}
+
+const getRecommendation = (simularityResult, movie) => {
+  let weightedScore = 0
+  let simularityScore = 0
+
+  movie.map(e => {
+    simularityResult.map(simularity => {
+      if (e.UserID === simularity.id) {
+        weightedScore += simularity.result * parseFloat(e.Rating)
+        simularityScore += simularity.result
+      }
+    })
+  })
+  return weightedScore / simularityScore
+}
+
+exports.getPearsonSimularity = getPearsonSimularity
+exports.getWeightedScore = getWeightedScore
