@@ -28,6 +28,10 @@ const pearson = (userA, userB) => {
   if (n === 0) {
     return 0 // nothing in common, return 0
   }
+  const num = pSum - (sumOne * sumTwo / n)
+  const den = Math.sqrt((sum1sq - sumOne ** 2 / n) * (sum2sq - sumTwo ** 2 / n))
+  console.log('userB: ', userB[0].UserID);
+  console.log(num / den)
 }
 const getPearsonSimularity = (userID) => {
   const simularity = []
@@ -43,4 +47,4 @@ const getPearsonSimularity = (userID) => {
     }
   }
 }
-getPearsonSimularity('2')
+getPearsonSimularity('7')
