@@ -5,7 +5,8 @@ const ratings = require('../ratings.json')
 const users = require('../users.json')
 const { sortByKey } = require('./euclideanAlgo')
 
-const pearson = (userID, userB) => {
+const pearson = (userA, userB) => {
+  console.log('userA: ', userA);
   // Initialize variables
   // m
   let sumOne = 0
@@ -13,7 +14,14 @@ const pearson = (userID, userB) => {
   let sum1sq = 0
   let sums2sq = 0
   let pSum = 0
-  const n = 0
+  let n = 0
+  for (const rootUser of userA) {
+    for (const currentUser of userB) {
+      if (rootUser.Movie === currentUser.Movie) { // if its same movie
+        console.log(typeof (rootUser.Rating))
+      }
+    }
+  }
 }
 const getPearsonSimularity = (userID) => {
   const simularity = []
@@ -24,11 +32,9 @@ const getPearsonSimularity = (userID) => {
   // e.g. : [ [{user: a}, {user: a}], [{user: b}]]
   for (let i = 0; i < sorted.length; i++) {
     if (userID !== sorted[i][0].UserID) { // check so we dont iterate root user
-      console.log("Test")
-      const result = pearson(userID, sorted[i])
+      const result = pearson(userA, sorted[i])
       simularity.push({ result: result, id: sorted[i][0].UserID })
     }
   }
-  pearson()
 }
 getPearsonSimularity('2')
