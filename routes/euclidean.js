@@ -27,7 +27,7 @@ router.get('/similarity/:id', validation, async (req, res) => {
 router.get('/weighted/:id', validation, async (req, res) => {
   try {
     const userID = req.params.id
-    const result = getWeightedScore(userID, 'euclidean')
+    const result = getWeightedScore(userID)
     const resultFromEuc = result.map((data) => {
       return {
         movie: data.MovieName,
