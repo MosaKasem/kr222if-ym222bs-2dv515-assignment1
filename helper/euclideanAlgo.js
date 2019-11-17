@@ -114,3 +114,4 @@ const getWeightedScore = userID => {
 
 exports.getWeightedScore = getWeightedScore
 exports.getSimularity = getSimularity
+exports.sortByKey = sortByKey
