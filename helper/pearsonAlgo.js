@@ -13,13 +13,16 @@ const pearson = (userA, userB) => {
   let sum2sq = 0
   let pSum = 0
   let n = 0
+
   for (const rootUser of userA) {
     for (const currentUser of userB) {
       if (rootUser.Movie === currentUser.Movie) { // if its same movie
         sumOne += Number(rootUser.Rating) // sum ratings for user A
         sumTwo += Number(currentUser.Rating) // sum ratings for user B
+        
         sum1sq += Number(rootUser.Rating) ** 2 // sum of squared rating for user A
         sum2sq += Number(currentUser.Rating) ** 2 // sum of squared rating for user B
+        
         pSum += Number(rootUser.Rating) * Number(currentUser.Rating) // product of ratings from A and B
         n += 1 // number of ratings in commong between A and B
       }
@@ -28,11 +31,12 @@ const pearson = (userA, userB) => {
   if (n === 0) {
     return 0 // nothing in common, return 0
   }
+
   const num = pSum - (sumOne * sumTwo / n)
   const den = Math.sqrt((sum1sq - sumOne ** 2 / n) * (sum2sq - sumTwo ** 2 / n))
-  console.log('userB: ', userB[0].UserID);
-  console.log(num / den)
+  return num / den
 }
+
 const getPearsonSimularity = (userID) => {
   const simularity = []
 
@@ -46,5 +50,6 @@ const getPearsonSimularity = (userID) => {
       simularity.push({ result: result, id: sorted[i][0].UserID })
     }
   }
+  return simularity.filter(e => e.result > 0).sort((a, b) => b.result - a.result)
 }
 getPearsonSimularity('7')
