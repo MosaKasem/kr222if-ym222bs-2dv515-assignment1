@@ -27,7 +27,6 @@ parseCVStoJSON = (filename) => {
     .pipe(csv({ separator: ';' }))
     .on('data', (data) => results.push(data))
     .on('end', () => {
-      console.log(results)
       const json = JSON.stringify(results)
 
       fs.writeFile(filename + '.json', json, 'utf8', (err) => {

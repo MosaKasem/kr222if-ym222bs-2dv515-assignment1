@@ -6,21 +6,27 @@ const users = require('../users.json')
 const { sortByKey } = require('./euclideanAlgo')
 
 const pearson = (userA, userB) => {
-  console.log('userA: ', userA);
   // Initialize variables
-  // m
   let sumOne = 0
   let sumTwo = 0
   let sum1sq = 0
-  let sums2sq = 0
+  let sum2sq = 0
   let pSum = 0
   let n = 0
   for (const rootUser of userA) {
     for (const currentUser of userB) {
       if (rootUser.Movie === currentUser.Movie) { // if its same movie
-        console.log(typeof (rootUser.Rating))
+        sumOne += Number(rootUser.Rating) // sum ratings for user A
+        sumTwo += Number(currentUser.Rating) // sum ratings for user B
+        sum1sq += Number(rootUser.Rating) ** 2 // sum of squared rating for user A
+        sum2sq += Number(currentUser.Rating) ** 2 // sum of squared rating for user B
+        pSum += Number(rootUser.Rating) * Number(currentUser.Rating) // product of ratings from A and B
+        n += 1 // number of ratings in commong between A and B
       }
     }
+  }
+  if (n === 0) {
+    return 0 // nothing in common, return 0
   }
 }
 const getPearsonSimularity = (userID) => {
