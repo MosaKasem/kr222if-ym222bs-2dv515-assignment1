@@ -11,7 +11,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <div className='container mt-5'>
-          <div className='help'>
+          <div className='wrapperopacity'>
             <h1 className="display-4">Movie recommendations</h1>
             <p className="lead">This website is dedicated to all moviewatchers all over the world</p>
             <Home />
