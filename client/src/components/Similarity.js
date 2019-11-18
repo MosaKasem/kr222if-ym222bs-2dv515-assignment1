@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import Message from './Message'
+import RenderTable from './RenderTable'
 import axios from 'axios'
 
 export const Similarity = (e) => {
@@ -22,9 +23,8 @@ export const Similarity = (e) => {
     const fetchSimilarity = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.get(`/similarity/${user}`);
+            const response = await axios.get(`/euclidean/similarity/${user}`);
             setData(response.data)
-
         } catch (err) {
             setUser('')
             setData(null)
@@ -35,7 +35,9 @@ export const Similarity = (e) => {
     // Skicka metod setMessage
     return (
         <Fragment>
-           <form>
+        { message ? <Message msg={message} />  : null }
+            <RenderTable usr={user} dat={data} update={updateAccordingToUser} hanldleE={handleEnterKey} fetch={fetchSimilarity}/>
+           {/* <form>
            {message && <Message msg={message} setMessage={setMessage} /> }
                <div className='input-group mb-3'>
                     <div className='input-group-prepend'>
@@ -57,14 +59,16 @@ export const Similarity = (e) => {
                             <tr>
                             <th>{item.id}</th>
                             <th>{item.name}</th>
-                            <td> {item.rating}</td>
+                            <td>{item.rating}</td>
                             </tr>
                         </tbody>
                         ))}
                     </table>
-                    }
+                    } */}
         </Fragment>
     )
 }
+
+
 
 export default Similarity

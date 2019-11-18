@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import Message from './Message'
+import RenderTable from './RenderTable'
 import axios from 'axios'
 
 export const Weighted = (e) => {
-    let count = 0
     const [ user, setUser ] = useState('')
     const [ data, setData ] = useState(null)
     const [ message, setMessage] = useState('')
@@ -24,8 +24,7 @@ export const Weighted = (e) => {
     const fetchWightedScore = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.get(`/weighted/${user}`);
-            console.log(response)
+            const response = await axios.get(`/euqlidean/weighted/${user}`);
             setData(response.data)
           } catch (err) {
             setUser('')
@@ -36,8 +35,9 @@ export const Weighted = (e) => {
     
     return (
         <Fragment>
-            {message ? <Message msg={message} /> : null }
-           <form>
+        { message ? <Message msg={message} />  : null}
+            <RenderTable usr={user} dat={data} update={updateAccordingToUser} hanldleE={handleEnterKey} fetch={fetchWightedScore}/>
+           {/* <form>
                <div className='input-group mb-3'>
                     <div className='input-group-prepend'>
                     </div>
@@ -53,16 +53,16 @@ export const Weighted = (e) => {
                                 <th scope='col'>Weighted Score</th>
                             </tr>
                         </thead>
-                        {data.map(item => (
-                        <tbody key={++count}>
+                        { data.map((item, i) => (
+                        <tbody key={`${item.name} ${i}`}>
                             <tr>
-                                <th key={++count}>{item.movie}</th>
-                                <td key={++count}>{item.weightedScore}</td>
+                                <th>{item.movie}</th>
+                                <td>{item.weightedScore}</td>
                             </tr>
                         </tbody>
                         ))}
                     </table>
-                        : null }
+                        : null } */}
         </Fragment>
     )
 }
