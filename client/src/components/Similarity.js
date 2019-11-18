@@ -25,13 +25,13 @@ export const Similarity = (e) => {
             const response = await axios.get(`/similarity/${user}`);
             setData(response.data)
 
-          } catch (err) {
-              setUser('')
-              setData(null)
-              setMessage('Something went wrong, try a number in the input field')
-          }
+        } catch (err) {
+            setUser('')
+            setData(null)
+            setMessage('Something went wrong, try a number in the input field')
+        }
     }
-    
+
     // Skicka metod setMessage
     return (
         <Fragment>
