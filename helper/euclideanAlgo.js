@@ -95,7 +95,7 @@ const getRecommendation = (simularityResult, movie) => {
  * iterates the movies and calls next method to calculate recommendation score and returns the array.
  * @param {the id of the user} userID
  */
-const getWeightedScore = userID => {
+const getWeightedScore = (userID) => {
   const result = []
   const rootUser = ratings.filter(e => e.UserID === userID) // fetch user
 
@@ -114,3 +114,5 @@ const getWeightedScore = userID => {
 
 exports.getWeightedScore = getWeightedScore
 exports.getSimularity = getSimularity
+exports.sortByKey = sortByKey
+exports.addNames = addNames

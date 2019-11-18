@@ -9,9 +9,8 @@ const PORT = process.env.PORT || 5000
 
 app.use(bodyParser.json())
 
-app.use('/', require('./routes/users'))
-app.use('/', require('./routes/ratings'))
-app.use('/', require('./routes/items'))
+app.use('/pearson', require('./routes/pearson'))
+app.use('/euclidean', require('./routes/euclidean'))
 
 app.get('/', (req, res) => {
   res.send('home')
@@ -21,13 +20,12 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => { console.log('Server is running on: ' + PORT) })
 
-parseCVStoJSON = (filename) => {
+const parseCVStoJSON = (filename) => {
   const results = []
   fs.createReadStream(filename + '.csv')
     .pipe(csv({ separator: ';' }))
     .on('data', (data) => results.push(data))
     .on('end', () => {
-      console.log(results)
       const json = JSON.stringify(results)
 
       fs.writeFile(filename + '.json', json, 'utf8', (err) => {

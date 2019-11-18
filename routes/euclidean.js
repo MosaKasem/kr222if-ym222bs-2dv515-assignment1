@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {getWeightedScore, getSimularity } = require('../helper/euclideanAlgo')
+const { getWeightedScore, getSimularity } = require('../helper/euclideanAlgo')
 const validation = require('../helper/validation')
 
 // Homepages for ratings
