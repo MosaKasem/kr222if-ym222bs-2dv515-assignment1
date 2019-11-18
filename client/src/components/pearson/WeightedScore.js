@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
-import RenderForm from './RenderForm'
-import Message from './Message'
+import RenderForm from '../RenderForm'
+import Message from '../Message'
 import axios from 'axios'
 
 export const Weighted = (e) => {
@@ -24,7 +24,7 @@ export const Weighted = (e) => {
     const fetchWightedScore = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.get(`/euclidean/weighted/${user}`);
+            const response = await axios.get(`/pearson/weighted/${user}`);
             setData(response.data)
           } catch (err) {
             setUser('')
@@ -37,15 +37,6 @@ export const Weighted = (e) => {
         <Fragment>
         { message ? <Message msg={message} />  : null}
             <RenderForm usr={user} update={updateAccordingToUser} handleKey={handleEnterKey} fetch={fetchWightedScore} />
-          {/* <form>
-               <div className='input-group mb-3'>
-                    <div className='input-group-prepend'>
-                    </div>
-                    <input type='text' value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className='form-control' placeholder='User ID' aria-label='User ID' aria-describedby='basic-addon1' />
-                    <button type='submit'  onClick={fetchWightedScore} className='btn btn-warning ml-2'>Search</button>
-                </div>
-            </form> */}
-
             { data ? <table className='table'>
                         <thead className='thead-light'>
                             <tr>

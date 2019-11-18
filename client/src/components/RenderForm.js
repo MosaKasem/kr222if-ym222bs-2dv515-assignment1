@@ -22,7 +22,7 @@ RenderForm.propTypes = {
     update: PropTypes.func.isRequired,
     handleE: PropTypes.func,
     fetch: PropTypes.func,
-    urs: PropTypes.string
+    usr: PropTypes.string
 }
 
 

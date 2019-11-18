@@ -1,8 +1,10 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Home from './components/Home.js'
-import Similarity from './components/Similarity.js'
-import Weighted from './components/WeightedScore.js'
+import EuclideanSimilarity from './components/euclidean/Similarity.js'
+import EuclideanWeighted from './components/euclidean/WeightedScore.js'
+import PearsonSimilarity from './components/pearson/Similarity.js'
+import PearsonWeighted from './components/pearson/WeightedScore.js'
 import './App.css'
 
 const App = () => {
@@ -14,8 +16,10 @@ const App = () => {
             <p className="lead">This website is dedicated to all moviewatchers all over the world</p>
             <Home />
             <Switch>
-            <Route path='/similarity' exact component={Similarity} />
-            <Route path='/weighted' exact component={Weighted} />
+            <Route path='/euclideansim' exact component={EuclideanSimilarity} />
+            <Route path='/euclideanweight' exact component={EuclideanWeighted} />
+            <Route path='/pearsonsim' exact component={PearsonSimilarity} />
+            <Route path='/pearsonweight' exact component={PearsonWeighted} />
             </Switch>
             </div>
         </div>
