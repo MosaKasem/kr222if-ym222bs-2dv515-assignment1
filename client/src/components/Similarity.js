@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react'
+import RenderForm from './RenderForm'
 import Message from './Message'
-import RenderTable from './RenderTable'
 import axios from 'axios'
 
 export const Similarity = (e) => {
@@ -36,7 +36,7 @@ export const Similarity = (e) => {
     return (
         <Fragment>
         { message ? <Message msg={message} />  : null }
-            <RenderTable usr={user} dat={data} update={updateAccordingToUser} hanldleE={handleEnterKey} fetch={fetchSimilarity}/>
+            <RenderForm usr={user} update={updateAccordingToUser} handleKey={handleEnterKey} fetch={fetchSimilarity}/>
            {/* <form>
            {message && <Message msg={message} setMessage={setMessage} /> }
                <div className='input-group mb-3'>
@@ -45,7 +45,7 @@ export const Similarity = (e) => {
                     <input type='text' value={user} onChange={updateAccordingToUser} onKeyPress={handleEnterKey} className='form-control' placeholder='User ID' aria-label='User ID' aria-describedby='basic-addon1' />
                     <button type='submit' onClick={fetchSimilarity} className='btn btn-warning ml-2'>Search</button>
                 </div>
-            </form> 
+            </form>  */}
             { data && <table className='table'>
                         <thead className='thead-light'>
                             <tr>
@@ -64,7 +64,7 @@ export const Similarity = (e) => {
                         </tbody>
                         ))}
                     </table>
-                    } */}
+                    } 
         </Fragment>
     )
 }
