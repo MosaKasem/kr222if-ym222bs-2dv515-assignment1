@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Home from './components/Home.js'
+import Links from './components/Links.js/index.js'
 import EuclideanSimilarity from './components/euclidean/Similarity.js'
 import EuclideanWeighted from './components/euclidean/WeightedScore.js'
 import PearsonSimilarity from './components/pearson/Similarity.js'
@@ -14,7 +14,7 @@ const App = () => {
           <div className='wrapperopacity'>
             <h1 className="display-4">Movie recommendations</h1>
             <p className="lead">This website is dedicated to all moviewatchers all over the world</p>
-            <Home />
+            <Links />
             <Switch>
             <Route path='/euclideansim' exact component={EuclideanSimilarity} />
             <Route path='/euclideanweight' exact component={EuclideanWeighted} />

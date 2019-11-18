@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 
 
-const Home = () => {
+const Links = () => {
     return(
         <Fragment>
             <div className='d-flex'>
@@ -30,4 +30,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default Links
