@@ -1,10 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-<<<<<<< HEAD
-import Links from './components/Links.js'
-=======
 import Links from './components/Links'
->>>>>>> 815b78a2f62cd359ebcdadd39015647c27f01fa9
 import EuclideanSimilarity from './components/euclidean/Similarity.js'
 import EuclideanWeighted from './components/euclidean/WeightedScore.js'
 import PearsonSimilarity from './components/pearson/Similarity.js'
