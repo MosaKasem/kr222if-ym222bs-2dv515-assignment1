@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const fs = require('fs')
 const csv = require('csv-parser')
-
+require('events').EventEmitter.prototype._maxListeners = 100
 const app = express()
 
 const PORT = process.env.PORT || 5000
@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => { console.log('Server is running on: ' + PORT) })
 
 const parseCVStoJSON = (filename) => {
+  console.log('filename: ', filename);
   const results = []
   fs.createReadStream(filename + '.csv')
     .pipe(csv({ separator: ';' }))
