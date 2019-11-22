@@ -77,15 +77,15 @@ const getWeightedScore = (userID) => {
   //     const score = getRecommendation(simResult, movieSet) // similarity score and movieSet
 
   //     const movieName = movieSet[i].Movie
-  //     console.log('movieName: ', movieName);
+  //     
   //     result.push({ MovieName: movieName, weightedScore: score })
   //   })
   // } catch (error) {
-  //   console.log('error: ', error);
-
+  //   
   // }
-  const results = result.filter(({ MovieName: listMovieName }) => !rootUser.some(({ Movie: rootMovieName }) => rootMovieName === listMovieName))
-  return results
+  const filterSeenMovies = result.filter(({ MovieName: listMovieName }) => !rootUser.some(({ Movie: rootMovieName }) => rootMovieName === listMovieName))
+  const filterOutZeros = filterSeenMovies.filter(rating => rating.weightedScore > 0)
+  return filterOutZeros
 }
 
 const getRecommendation = (simularityResult, movie) => {
@@ -95,12 +95,16 @@ const getRecommendation = (simularityResult, movie) => {
   movie.map(e => {
     simularityResult.map(simularity => {
       if (e.UserID === simularity.id) {
-        weightedScore += simularity.result * parseFloat(e.Rating)
-        simularityScore += simularity.result
+        weightedScore += Number(simularity.result) * Number(e.Rating)
+        simularityScore += Number(simularity.result)
       }
     })
   })
-  return weightedScore / simularityScore
+
+  if (simularityResult === 0 || weightedScore === 0) {
+    return 0
+  }
+  return Number(weightedScore) / Number(simularityScore)
 }
 
 exports.getPearsonSimularity = getPearsonSimularity
